@@ -1,0 +1,1 @@
+$(kubectl get pod -l app=django -o jsonpath="{.items[0].metadata.name}")
