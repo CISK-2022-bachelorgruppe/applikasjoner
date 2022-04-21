@@ -6,7 +6,7 @@ parser.add_argument('--host', nargs='?', const=1, type=str)
 parser.add_argument('--port', nargs='?', const=1, type=int)
 parser.add_argument('--antall', nargs='?', const=1, type=int)
 args = parser.parse_args()
-print(f"http://{args.host}:{args.port}")
+print(f"\nStarter test mot http://{args.host}:{args.port}\n\n")
 
 x = 0
 
