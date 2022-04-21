@@ -12,5 +12,5 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleW
 
 while True:
     r = requests.get(url, headers=headers)
-    sleep(int(TID))
+    sleep(float(TID))
 
