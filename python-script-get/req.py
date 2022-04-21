@@ -14,5 +14,5 @@ while x < args.antall:
     r = requests.get(f"http://{args.host}:{args.port}")
     if r.status_code == 200:
         x += 1
-        if x % 100 == 0:
-            print(f"Det er gjennomført {x} tester.")
+        if x % 1000 == 0:
+            print(f"Det er gjennomført {x}/{args.antall} tester.")
