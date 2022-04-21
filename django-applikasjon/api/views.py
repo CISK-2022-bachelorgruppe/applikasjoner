@@ -9,9 +9,9 @@ from .models import AppDB
 # Create your views here.
 def add(request):
     try:
-        intervall = int(request.GET.get("int"))
+        intervall = float(request.GET.get("int"))
     except:
-        intervall = 0
+        intervall = float(0)
     try:
         siste = AppDB.objects.latest('id')
         siste_tid = siste.tidspunkt
