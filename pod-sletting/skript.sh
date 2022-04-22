@@ -4,6 +4,6 @@ do
     kubectl delete pod $POD --force 
     echo "Slettet pod: $i:  $POD" >> log.txt
     echo Kjøring: $i
-    sleep 45
+    sleep 30
 done
 echo "FERDIG"
