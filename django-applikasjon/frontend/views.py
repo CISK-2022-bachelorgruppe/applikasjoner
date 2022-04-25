@@ -8,6 +8,13 @@ def forside(request):
     db = AppDB.objects.all()
     db = db[::-1]
 
+    #verdi = 0
+    #for i in range(1, 10):
+    #   verdi += 1
+    #   verdi = verdi * i
+
+
+
     verdier = {
         "db": db,
     }
