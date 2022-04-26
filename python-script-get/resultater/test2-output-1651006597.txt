@@ -1,0 +1,15 @@
+./test2.sh 10.0.0.2 8000 100 10 2 $HOME/git
+1 django 1 mysql
+
+Output for test 1:
+
+real	1m37.792s
+user	0m0.386s
+sys	0m0.033s
+
+Output for test 2:
+
+real	1m46.462s
+user	0m0.358s
+sys	0m0.054s
+

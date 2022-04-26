@@ -1,0 +1,15 @@
+./test2.sh 10.0.0.2 8000 100 1 2 $HOME/git
+5 django podder 1 mysql pod 
+
+Output for test 1:
+
+real	1m42.618s
+user	0m0.373s
+sys	0m0.038s
+
+Output for test 2:
+
+real	1m41.250s
+user	0m0.361s
+sys	0m0.051s
+

@@ -34,10 +34,15 @@ for i in range(args.thr):
     threads.append(t)
     t.start()
 
-while value < args.antall:
-    r = requests.get(f"http://{args.host}:{args.port}")
-    if r.status_code == 200:
-        with threadLock:
-            value += 1
-        if value % 1000 == 0:
-            print(f"Det er gjennomført {value}/{args.antall} tester.")
+for i in range(args.thr):
+    for tråd in threads:
+            tråd.join()
+
+if args.thr != 0:
+    while value < args.antall:
+        r = requests.get(f"http://{args.host}:{args.port}")
+        if r.status_code == 200:
+            with threadLock:
+                value += 1
+            if value % 1000 == 0:
+                print(f"Det er gjennomført {value}/{args.antall} tester.")
