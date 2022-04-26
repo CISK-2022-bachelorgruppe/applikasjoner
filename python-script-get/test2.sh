@@ -32,7 +32,7 @@ echo "Output for test $i:" >> $fil
 { time python3 $req/bachelor-applikasjon/python-script-get/req.py --host $host --port $port --antall $antall --thr $thr; } 2>> $fil
 echo "" >> $fil
 echo "Test $i gjennomført. Venter 10 sekunder før neste test..."
-sleep 10
+sleep 30
 done
 
 echo ""
