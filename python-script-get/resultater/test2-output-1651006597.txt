@@ -1,6 +1,10 @@
 ./test2.sh 10.0.0.2 8000 100 10 2 $HOME/git
 1 django 1 mysql
 
+100 GET forespørsler
+10 tråder
+2 gjennomføringer
+
 Output for test 1:
 
 real	1m37.792s

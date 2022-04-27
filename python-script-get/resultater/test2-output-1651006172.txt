@@ -1,6 +1,9 @@
 ./test2.sh 10.0.0.2 8000 100 1 2 $HOME/git
 1 django pod 1 mysql pod
 
+100 GET forespørsler
+1 Tråd
+2 gjennomføringer
 
 Output for test 1:
 
