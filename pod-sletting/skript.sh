@@ -1,4 +1,8 @@
 echo "Skriptet vil lagre loggfiler m.m i denne mappen: $(pwd)"
+echo '(Husk at appen "sched" må bygges å legges inn i minikube før denne testen startes)'
+echo
+echo "Starter om 10 sekunder"
+sleep 10
 sched_app=https://raw.githubusercontent.com/sonjoh/k8s-bachelor/b8b3beb0b5a6805bc43aa3f92f2dbb3fd31b99b0/k8s-config/sched/sched-deployment.yaml
 kubectl apply -f $sched_app
 
