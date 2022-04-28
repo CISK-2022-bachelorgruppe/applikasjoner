@@ -1,0 +1,19 @@
+./test2.sh 10.0.0.2 8000 100 1 2 $HOME/git
+1 django pod 1 mysql pod
+
+100 GET forespørsler
+1 Tråd
+2 gjennomføringer
+
+Output for test 1:
+
+real	1m12.069s
+user	0m0.347s
+sys	0m0.026s
+
+Output for test 2:
+
+real	1m11.529s
+user	0m0.330s
+sys	0m0.043s
+

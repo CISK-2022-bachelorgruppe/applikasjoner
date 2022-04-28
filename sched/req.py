@@ -1,5 +1,4 @@
 import requests
-import json
 import os
 from time import sleep 
 
