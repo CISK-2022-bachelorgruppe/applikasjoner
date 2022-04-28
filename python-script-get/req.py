@@ -21,7 +21,7 @@ def foresporsel(host, port, antall, thr):
         if r.status_code == 200:
             with threadLock:
                 value += 1
-            if value % 1000 == 0:
+            if value % 50 == 0:
                 print(f"Det er gjennomført {value}/{antall} tester.")
 
 
@@ -44,5 +44,5 @@ if args.thr != 0:
         if r.status_code == 200:
             with threadLock:
                 value += 1
-            if value % 1000 == 0:
+            if value % 50 == 0:
                 print(f"Det er gjennomført {value}/{args.antall} tester.")

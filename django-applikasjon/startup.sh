@@ -10,7 +10,7 @@ if [ $? -eq 0 ];
 then
   echo "Klarte å koble til databasen, starter server."
   echo " "
-  python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
+  python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000 --nothreading
   sleep 10
 else
   echo " "
