@@ -21,6 +21,13 @@ sleep 30
 
 echo "Eksporterer databasen fra podden mysql"
 POD_mysql=$(kubectl get pod -l app=mysql -o jsonpath="{.items[0].metadata.name}")
-Fil="./databasedump/bachelor_db-$(date +%F" "%H%M%S)"
-mkdir ./databasedump 2> /dev/null
-kubectl exec $POD_mysql -- bash -c 'mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" bachelor_db api_appdb' > "$Fil"
+MYSQL_secure_file_priv="/var/lib/mysql-files/"
+Filnavn="bachelor_db-[$(date +%F"_"%H%M%S)].csv"
+Fil=$MYSQL_secure_file_priv$Filnavn
+
+kubectl exec $POD_mysql -- mysql -uroot -pcGFzc3dvcmQK --execute="SELECT * FROM bachelor_db.api_appdb INTO OUTFILE '$Fil' FIELDS ENCLOSED BY '\"' TERMINATED BY ';' ESCAPED BY '\"' LINES TERMINATED BY '\r\n';"
+
+
+kubectl cp default/$POD_mysql:$Fil ./database/$Filnavn
+
+sed -i '1s/^/"ID";"Tidspunkt";"Tid siden siste";"Tid";"Podnavn"\n/' ./database/$Filnavn
