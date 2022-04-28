@@ -34,5 +34,4 @@ For å teste tid, sleng på time:
 ```
 time python3 req.py --host $(minikube ip) --port <PORT> --antall <ANTALL FORESPØRSLER> --thr <ANTALL TRÅDER>
 ```
-
-> Etter kort testing på maskin med 4 cores virker det som at 30 er maksantall tråder vi bør gå for. Det virker som at tiden går mye nedover i økning av tråder til en når 10, deretter senkes tiden saktere. Min anbefaling er å kjøre på med 10-20 tråder.
+Etter kort testing på maskin med 4 cores virker det som at 30 er maksantall tråder vi bør gå for. Det virker som at tiden går mye nedover i økning av tråder til en når 10, deretter senkes tiden saktere. Min anbefaling er å kjøre på med 10-20 tråder.
