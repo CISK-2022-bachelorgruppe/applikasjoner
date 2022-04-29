@@ -1,37 +1,57 @@
+arbeidsmappe="./resultater/"            # I denne mappen lagres resultatene fra testen
+Fil_slettingAvPodLOG=""$arbeidsmappe"slettede-podder-[$(date +%F"_"%H%M%S)].txt"
+mkdir $arbeidsmappe 2> /dev/null        # Arbeidsmappen opprettes
+touch $Fil_slettingAvPodLOG             # Loggfil opprettes
+
 echo "Skriptet vil lagre loggfiler m.m i denne mappen: $(pwd)"
 echo '(Husk at appen "sched" må bygges å legges inn i minikube før denne testen startes)'
 echo
-echo "Starter om 10 sekunder"
+
+echo "Starter skriptet om 10 sekunder"
 sleep 10
-sched_app=https://raw.githubusercontent.com/sonjoh/k8s-bachelor/b8b3beb0b5a6805bc43aa3f92f2dbb3fd31b99b0/k8s-config/sched/sched-deployment.yaml
-kubectl apply -f $sched_app
+Filnavn_sched=sched-deployment.yaml
+wget https://raw.githubusercontent.com/sonjoh/k8s-bachelor/b8b3beb0b5a6805bc43aa3f92f2dbb3fd31b99b0/k8s-config/sched/sched-deployment.yaml -O $Filnavn_sched    # Laster ned sched-deployment
+nmcli radio wifi off                    # Skrur av WiFi
+
+echo """
+-------------------
+|  Skrur av WiFi  |
+-------------------
+"""
+sleep 5
 
 echo
-echo "Venter i 2 minutter før testen starter"
-sleep 120
-for i in {1..30}
+echo "Sched-applikasjonen deployeres nå!"
+kubectl apply -f $Filnavn_sched         # Starter schedule-appen
+
+echo
+echo "Venter i 2 minutter før første pod slettes"
+sleep 1
+for i in {1..30}                        # Her starter selve testen
 do
     POD_django=$(kubectl get pod -l app=django -o jsonpath="{.items[0].metadata.name}")
     echo
     echo "Sletter pod: $i:  $POD_django"
-    echo "Slettet pod: $i:  $POD_django" >> slettede-podder-LOG.txt
+    echo "Slettet pod: $i:  $POD_django" >> "$Fil_slettingAvPodLOG"
     kubectl delete pod $POD_django --force 
-    sleep 30
+    sleep 3
 done
 
-kubectl delete -f $sched_app
+kubectl delete -f $Filnavn_sched
+rm $Filnavn_sched
 echo "Ferdig med testing. Venter i 30 sekunder"
-sleep 30
+sleep 3
 
 echo "Eksporterer databasen fra podden mysql"
+
 POD_mysql=$(kubectl get pod -l app=mysql -o jsonpath="{.items[0].metadata.name}")
 MYSQL_secure_file_priv="/var/lib/mysql-files/"
-Filnavn="bachelor_db-[$(date +%F"_"%H%M%S)].csv"
-Fil=$MYSQL_secure_file_priv$Filnavn
+Filnavn_db="bachelor_db-[$(date +%F"_"%H%M%S)].csv"
+Fil_db=$MYSQL_secure_file_priv$Filnavn_db
 
-kubectl exec $POD_mysql -- mysql -uroot -pcGFzc3dvcmQK --execute="SELECT * FROM bachelor_db.api_appdb INTO OUTFILE '$Fil' FIELDS ENCLOSED BY '\"' TERMINATED BY ';' ESCAPED BY '\"' LINES TERMINATED BY '\r\n';"
+kubectl exec $POD_mysql -- mysql -uroot -pcGFzc3dvcmQK --execute="SELECT * FROM bachelor_db.api_appdb INTO OUTFILE '$Fil_db' FIELDS ENCLOSED BY '\"' TERMINATED BY ';' ESCAPED BY '\"' LINES TERMINATED BY '\r\n';"
 
 
-kubectl cp default/$POD_mysql:$Fil ./database/$Filnavn
+kubectl cp default/$POD_mysql:$Fil_db "$arbeidsmappe$Filnavn_db"
 
-sed -i '1s/^/"ID";"Tidspunkt";"Tid siden siste";"Tid";"Podnavn"\n/' ./database/$Filnavn
+sed -i '1s/^/"ID";"Tidspunkt";"Tid siden siste";"Tid";"Podnavn"\n/' "$arbeidsmappe$Filnavn_db"
