@@ -15,8 +15,8 @@ then
     echo "velkommen til"
 
 
-    mkdir "$path/bachelor-applikasjon/python-script-get/output"
-    mkdir "$path/bachelor-applikasjon/python-script-get/output/$tid"
+    mkdir "$path/bachelor-applikasjon/python-script-get/resultater"
+    mkdir "$path/bachelor-applikasjon/python-script-get/resultater/$tid"
 
     for pod in {1..10}
     do
@@ -25,7 +25,7 @@ then
 
         for z in {1..10}
         do
-            fil="$path/bachelor-applikasjon/python-script-get/output/$tid/$pod-podder.$z-trader-$tid.txt"
+            fil="$path/bachelor-applikasjon/python-script-get/resultater/$tid/$pod-podder.$z-trader-$tid.txt"
             echo "Starter med $z tråder og $pod podder."
             for i in $(seq 1 $gjennomforinger)
             do
@@ -44,6 +44,13 @@ then
         echo "Test med $pod podder ferdig, skalerer opp."
         echo ""
     done
+
+    cd ~
+    mkdir ~/.ssh/test
+    mv ~/.ssh/id_rsa ~/.ssh/test/
+    mv ~/.ssh/id_rsa.pub ~/.ssh/test/
+    cd $path/bachelor-applikasjon/
+    git push
 
 
 
