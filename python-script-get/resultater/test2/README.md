@@ -6,3 +6,4 @@ Kommando kjørt på Maskin B (den som sender forespørsler)
 ```
 
 > Merk: For at scriptet skal fungere må Maskin B legge inn sin public key i Maskin As ~/.ssh/authorized_keys
+> Django kjørte med tag :6.0 som vil si at det krevde mye mindre prossessering per forespørsel.
