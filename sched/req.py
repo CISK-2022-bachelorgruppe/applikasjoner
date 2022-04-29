@@ -10,6 +10,9 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleW
 
 
 while True:
-    r = requests.get(url, headers=headers)
+    try:
+        r = requests.get(url, headers=headers)
+    except:
+        print("OH OH!\nDJANGO-Pod er mest sannsylig nede (slettet)!")
     sleep(float(TID))
 
