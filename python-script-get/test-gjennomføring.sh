@@ -6,24 +6,26 @@ foresporsler=$3
 gjennomforinger=$4
 path=$5
 username=$6
+remoteGit=$7
 tid=$(date +%s)
 
 
-if [ $1 ] && [ $2 ] && [ $3 ] && [ $4 ] && [ $5 ] && [ $6 ]
+if [ $1 ] && [ $2 ] && [ $3 ] && [ $4 ] && [ $5 ] && [ $6 ] && [ $7 ]
 then
     echo "velkommen til"
 
 
     mkdir "$path/bachelor-applikasjon/python-script-get/output"
+    mkdir "$path/bachelor-applikasjon/python-script-get/output/$tid"
 
     for pod in {1..10}
     do
-        ssh $username@$host "cd /home/$username/Git_repo/k8s-bachelor/k8s-config/django/ && kubectl scale --replicas=$pod -f django-deployment.yaml"
+        ssh $username@$host "cd $remoteGit/k8s-bachelor/k8s-config/django/ && kubectl scale --replicas=$pod -f django-deployment.yaml"
         sleep 12
 
         for z in {1..10}
         do
-            fil="$path/bachelor-applikasjon/python-script-get/output/$pod-podder.$z-trader-$tid.txt"
+            fil="$path/bachelor-applikasjon/python-script-get/output/$tid/$pod-podder.$z-trader-$tid.txt"
             echo "Starter med $z tråder og $pod podder."
             for i in $(seq 1 $gjennomforinger)
             do
@@ -49,8 +51,8 @@ else
     echo ""
     echo "ERROR: Ikke riktig argumenter"
     echo ""
-    echo "Riktig syntax: ./test-gjennomføring.sh <host> <port> <forespørsler> <antall gjennomføringer> <path repo ligger i> <username>"
+    echo "Riktig syntax: ./test-gjennomføring.sh <host> <port> <forespørsler> <antall gjennomføringer> <path repo ligger i> <username> <path repo ligger i på remote maskin>"
     echo ""
-    echo "Eksempel: ./test-gjennomføring.sh \$(minikube ip) 30001 100 2 5 $HOME/git"
+    echo "Eksempel: ./test-gjennomføring.sh \$(minikube ip) 30001 100 2 $HOME/git bruker1 /home/bruker2/Git_Repo"
     echo ""
 fi
