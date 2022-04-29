@@ -26,7 +26,7 @@ kubectl apply -f $Filnavn_sched         # Starter schedule-appen
 
 echo
 echo "Venter i 2 minutter før første pod slettes"
-sleep 1
+sleep 120
 for i in {1..30}                        # Her starter selve testen
 do
     POD_django=$(kubectl get pod -l app=django -o jsonpath="{.items[0].metadata.name}")
@@ -34,13 +34,13 @@ do
     echo "Sletter pod: $i:  $POD_django"
     echo "Slettet pod: $i:  $POD_django" >> "$Fil_slettingAvPodLOG"
     kubectl delete pod $POD_django --force 
-    sleep 3
+    sleep 30
 done
 
 kubectl delete -f $Filnavn_sched        # Sletter sched-applikasjon så det ikke kommer flere database-entries
 rm $Filnavn_sched
 echo "Ferdig med testing. Venter i 30 sekunder"
-sleep 3
+sleep 30
 
 echo "Eksporterer databasen fra podden mysql"
 
