@@ -37,7 +37,7 @@ do
     sleep 3
 done
 
-kubectl delete -f $Filnavn_sched
+kubectl delete -f $Filnavn_sched        # Sletter sched-applikasjon så det ikke kommer flere database-entries
 rm $Filnavn_sched
 echo "Ferdig med testing. Venter i 30 sekunder"
 sleep 3
@@ -49,9 +49,9 @@ MYSQL_secure_file_priv="/var/lib/mysql-files/"
 Filnavn_db="bachelor_db-[$(date +%F"_"%H%M%S)].csv"
 Fil_db=$MYSQL_secure_file_priv$Filnavn_db
 
-kubectl exec $POD_mysql -- mysql -uroot -pcGFzc3dvcmQK --execute="SELECT * FROM bachelor_db.api_appdb INTO OUTFILE '$Fil_db' FIELDS ENCLOSED BY '\"' TERMINATED BY ';' ESCAPED BY '\"' LINES TERMINATED BY '\r\n';"
+kubectl exec $POD_mysql -- mysql -uroot -pcGFzc3dvcmQK --execute="SELECT * FROM bachelor_db.api_appdb INTO OUTFILE '$Fil_db' FIELDS ENCLOSED BY '\"' TERMINATED BY ';' ESCAPED BY '\"' LINES TERMINATED BY '\r\n';"         # Eksporterer database fra mysql-pod og konverterer det til csv
 
 
-kubectl cp default/$POD_mysql:$Fil_db "$arbeidsmappe$Filnavn_db"
+kubectl cp default/$POD_mysql:$Fil_db "$arbeidsmappe$Filnavn_db"                                # Kopierer csv-filen fra podden til host-maskinen
 
-sed -i '1s/^/"ID";"Tidspunkt";"Tid siden siste";"Tid";"Podnavn"\n/' "$arbeidsmappe$Filnavn_db"
+sed -i '1s/^/"ID";"Tidspunkt";"Tid siden siste";"Tid";"Podnavn"\n/' "$arbeidsmappe$Filnavn_db"  # Legger til overskrifter i csv-filen
