@@ -20,7 +20,8 @@ then
 
     for pod in {1..10}
     do
-        ssh $username@$host "cd $remoteGit/k8s-bachelor/k8s-config/django/ && kubectl scale --replicas=$pod -f django-deployment.yaml"
+        minikube kubectl -- scale --replicas=$pod -f $path/k8s-bachelor/k8s-config/django/django-deployment.yaml
+        #ssh $username@$host "cd $remoteGit/k8s-bachelor/k8s-config/django/ && kubectl scale --replicas=$pod -f django-deployment.yaml"
         sleep 12
 
         for z in {1..10}
@@ -46,11 +47,11 @@ then
     done
 
     cd ~
-    mkdir ~/.ssh/test
-    mv ~/.ssh/id_rsa ~/.ssh/test/
-    mv ~/.ssh/id_rsa.pub ~/.ssh/test/
-    cd $path/bachelor-applikasjon/
-    git push
+    #mkdir ~/.ssh/test
+    #mv ~/.ssh/id_rsa ~/.ssh/test/
+    #mv ~/.ssh/id_rsa.pub ~/.ssh/test/
+    #cd $path/bachelor-applikasjon/
+    #git push
 
 
 
