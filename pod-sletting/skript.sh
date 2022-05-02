@@ -35,7 +35,7 @@ do
     echo
     echo "Sletter pod: $i:  $POD_django"
     echo "Slettet pod: $i:  $POD_django" >> "$Fil_slettingAvPodLOG"
-    minikube kubectl --  delete pod $POD_django --force 2>> "$Fil_slettingAvPodLOG"
+    minikube kubectl --  delete pod $POD_django --force 2>> "$Fil_error"
     sleep 30
 done
 
@@ -51,9 +51,9 @@ MYSQL_secure_file_priv="/var/lib/mysql-files/"
 Filnavn_db="bachelor_db-[$(date +%F"_"%H%M%S)].csv"
 Fil_db=$MYSQL_secure_file_priv$Filnavn_db
 
-minikube kubectl --  exec $POD_mysql -- mysql -uroot -pcGFzc3dvcmQK --execute="SELECT * FROM bachelor_db.api_appdb INTO OUTFILE '$Fil_db' FIELDS ENCLOSED BY '\"' TERMINATED BY ';' ESCAPED BY '\"' LINES TERMINATED BY '\r\n';" 2>> "$Fil_slettingAvPodLOG"     # Eksporterer database fra mysql-pod og konverterer det til csv
+minikube kubectl --  exec $POD_mysql -- mysql -uroot -pcGFzc3dvcmQK --execute="SELECT * FROM bachelor_db.api_appdb INTO OUTFILE '$Fil_db' FIELDS ENCLOSED BY '\"' TERMINATED BY ';' ESCAPED BY '\"' LINES TERMINATED BY '\r\n';" 2>> "$Fil_error"     # Eksporterer database fra mysql-pod og konverterer det til csv
 
 
-minikube kubectl --  cp default/$POD_mysql:$Fil_db "$arbeidsmappe$Filnavn_db" 2>> "$Fil_slettingAvPodLOG"                               # Kopierer csv-filen fra podden til host-maskinen
+minikube kubectl --  cp default/$POD_mysql:$Fil_db "$arbeidsmappe$Filnavn_db" 2>> "$Fil_error"                               # Kopierer csv-filen fra podden til host-maskinen
 
 sed -i '1s/^/"ID";"Tidspunkt";"Tid siden siste";"Tid";"Podnavn"\n/' "$arbeidsmappe$Filnavn_db"  # Legger til overskrifter i csv-filen
