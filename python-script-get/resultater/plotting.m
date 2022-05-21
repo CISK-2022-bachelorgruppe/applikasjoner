@@ -11,60 +11,51 @@ trad7 = [19.73,11.38,8.74,7.42,6.89,6.42,6.17,6.05,5.9,5.75]
 trad8 = [19.81,11.03,8.63,7.3,6.8,6.34,5.99,5.73,5.7,5.54]
 trad9 = [19.84,11.23,8.29,7.3,6.67,6.28,5.88,5.67,5.45,5.36]
 trad10 = [19.83,11.17,8.49,7.24,6.52,6.12,5.74,5.57,5.46,5.18]
-
+diagonal= [20.11, 13.4, 10.35, 8.6, 7.34, 6.73, 6.17, 5.73, 5.45, 5.18]
 endring = [0.348,42.92,55.18,63.22,67.22,69.16,70.85,72.03,72.98,73.88]
-
+diagonal_teoretisk = [20.11, 20.11/2, 20.11/3, 20.11/4, 20.11/5, 20.11/6, 20.11/7, 20.11/8, 20.11/9, 20.11/10 ]
 
 figure;
-subplot (321);
-  plot(x, trad1);
+subplot (311);
+  plot(x, trad1, 'bo-');
   ylim([3 22])
-  title ("1 Tråd")
-
-subplot (322);
-  plot(x, trad2)
-  ylim([3 22])
-  title("2 Tråder")
-
-subplot(323);
-  plot(x, trad3)
-  ylim([3 22])
-  title("3 Tråder")
-  xlabel("Antall Podder")
+  xlim([1 10])
+  ylabel('Sekunder')
+  grid on;
+  text (1.5, 0, "Antall podder");
+  xlabel("(a) 1 Tråd")
   
-subplot(324);
-  plot(x, trad4)
+subplot(312);
+  plot(x, trad4, 'bo-')
   ylim([3 22])
-  title("4 Tråder")
-subplot(325);
-  plot(x, trad5)
+  xlim([1 10])
+  ylabel('Sekunder')
+  grid on;
+  text (1.5, 0, "Antall podder");
+  xlabel("(b) 4 Tråder")
+subplot(313);
+  plot(x, trad10, 'bo-')
   ylim([3 22])
-  title("5 Tråder")
-subplot(326);
-  plot(x, trad6)
-  ylim([3 22])
-  title("6 Tråder")
+  grid on;
+  xlim([1 10])
+  ylabel('Sekunder')
+  text (1.5, 0, "Antall podder");
+  xlabel("(c) 10 Tråder")
 
-figure;
-subplot(221);
-  plot(x, trad7)
-  ylim([3 22])
-  title("7 Tråder")
-subplot(222);
-  plot(x, trad8)
-  ylim([3 22])
-  title("8 Tråder")
-subplot(223);
-  plot(x, trad9)
-  ylim([3 22])
-  title("9 Tråder")
-subplot(224);
-  plot(x, trad10)
-  ylim([3 22])
-  title("10 Tråder")
+figure
+  hold on;
+  plot(x, diagonal, 'bo-')
   
-figure;
-plot(x, endring)
-title("Prosent reduksjon fra 1 til 10 tråder")
-xlabel("Podder")
-ylabel("Reduksjon fra 1 til 10 tråder i %")
+  
+  plot(x, diagonal_teoretisk, 'ro-')
+  for i = 1:1:10;
+    diff(i) = diagonal(i)-diagonal_teoretisk(i)
+  endfor
+  plot(x, diff, 'go-')
+  legend("Diagonale verdier fra test", "Teoretiske diagonale verdier", "Testverdier - Teoretiske verdier")
+  grid on;
+  ylim([0 22])
+  xlim([1 10])
+  ylabel('Sekunder')
+  xlabel("Antall podder og antall tråder")
+  
